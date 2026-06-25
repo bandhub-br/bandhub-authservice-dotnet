@@ -89,3 +89,14 @@ O endpoint `/auth/login` tem rate limiting configurado:
 - 5 requisições por minuto por janela fixa
 - Fila de até 2 requisições adicionais
 - Status 429 em caso de excesso
+
+## Acesso via Gateway
+
+Este serviço é acessível através do **BandHub.Gateway** (porta `5000`):
+
+| Via Gateway | Direto |
+|---|---|
+| `http://localhost:5000/auth/login` | `http://localhost:5290/auth/login` |
+| `http://localhost:5000/auth/refresh-token` | `http://localhost:5290/auth/refresh-token` |
+
+> Em produção, o cliente deve sempre usar o Gateway como ponto de entrada único.
