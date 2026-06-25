@@ -11,6 +11,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddAuthService(builder.Configuration);
+builder.Services.AddHttpContextAccessor();
 
 var jwt = builder.Configuration.GetSection("Jwt");
 
