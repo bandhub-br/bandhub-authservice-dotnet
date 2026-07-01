@@ -33,4 +33,14 @@ public class AccountAuthRepository : IAccountAuthRepository
                 .SetProperty(a => a.RefreshTokenExpiraEm, DateTime.UtcNow.AddDays(7)),
                 cancellationToken);
     }
+
+    public async Task RevokeRefreshTokenAsync(Guid userId, CancellationToken cancellationToken)
+    {
+        await _context.Accounts
+        .Where(x => x.Id == userId)
+        .ExecuteUpdateAsync(x => x
+            .SetProperty(a => a.RefreshToken, (string?)null)
+            .SetProperty(a => a.RefreshTokenExpiraEm, (DateTime?)null),
+            cancellationToken);
+    }
 }

@@ -66,5 +66,6 @@ app.UseHttpsRedirection();
 
 app.MapLoginEndpoint();
 app.MapRefreshTokenEndpoint();
+app.MapLogoutEndpoint();
 
 app.Run();
