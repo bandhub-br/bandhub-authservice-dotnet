@@ -1,6 +1,8 @@
 using BandHub.AuthService.Auth;
 using BandHub.AuthService.Common;
 using BandHub.AuthService.Features.Login;
+using BandHub.UserService.Features.Accounts.Domain;
+using BandHub.UserService.Infrastructure.HashPassword;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.RateLimiting;
 using Microsoft.IdentityModel.Tokens;
@@ -12,6 +14,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddAuthService(builder.Configuration);
 builder.Services.AddHttpContextAccessor();
+builder.Services.AddScoped<IPasswordHasher, PasswordHasher>();
 
 var jwt = builder.Configuration.GetSection("Jwt");
 

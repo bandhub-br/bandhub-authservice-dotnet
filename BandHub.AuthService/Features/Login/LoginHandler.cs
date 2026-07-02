@@ -1,5 +1,6 @@
 using BandHub.AuthService.Auth;
 using BandHub.AuthService.Domain;
+using BandHub.UserService.Features.Accounts.Domain;
 using Microsoft.AspNetCore.Http;
 
 namespace BandHub.AuthService.Features.Login;
@@ -10,17 +11,20 @@ public class LoginHandler
     private readonly ITokenService _tokenService;
     private readonly ILogger<LoginHandler> _logger;
     private readonly IHttpContextAccessor _httpContextAccessor;
+    private readonly IPasswordHasher _passwordHasher;
 
     public LoginHandler(
         IAccountAuthRepository accountAuthRepository, 
         ITokenService tokenService, 
         ILogger<LoginHandler> logger,
-        IHttpContextAccessor httpContextAccessor)
+        IHttpContextAccessor httpContextAccessor,
+        IPasswordHasher passwordHasher)
     {
         _accountAuthRepository = accountAuthRepository;
         _tokenService = tokenService;
         _logger = logger;
         _httpContextAccessor = httpContextAccessor;
+        _passwordHasher = passwordHasher;
     }
 
     public async Task<LoginResponse> HandleAsync(LoginRequest request, CancellationToken cancellationToken)
@@ -36,7 +40,7 @@ public class LoginHandler
             throw new InvalidOperationException("Credencias Inválidas.");
         }
 
-        if (account.PasswordHash != request.Password) // Temporário: depois trocamos por hash real
+        if (!_passwordHasher.VerifyPassword(request.Password, account.PasswordHash))
         {
             _logger.LogWarning("Login failed for email {Email} from IP {IP}: invalid password", request.Email, ip);
             throw new InvalidOperationException("Credencias Inválidas.");
