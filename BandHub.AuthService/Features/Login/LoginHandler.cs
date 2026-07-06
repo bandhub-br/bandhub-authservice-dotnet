@@ -49,6 +49,7 @@ public class LoginHandler
         var accessToken = _tokenService.GerarAcessToken(account);
         var refreshToken = _tokenService.GerarRefreshToken();
 
+
         await _accountAuthRepository.UpdateRefreshTokenAsync(account.Id, refreshToken, cancellationToken);
 
         _logger.LogInformation("Login successful for email {Email} from IP {IP}", request.Email, ip);

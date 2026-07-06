@@ -36,9 +36,7 @@ public class AccountAuthDbContext : DbContext
                 .HasMaxLength(500);
 
             entity.Property(x => x.AccountType)
-                .HasConversion<string>()
-                .IsRequired()
-                .HasMaxLength(20);
+                .IsRequired();
 
             entity.Property(x => x.CreatedAt)
                 .IsRequired();
