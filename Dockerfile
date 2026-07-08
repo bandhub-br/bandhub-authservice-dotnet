@@ -15,5 +15,9 @@ RUN dotnet publish "BandHub.AuthService.csproj" -c Release -o /app/publish /p:Us
 
 FROM base AS final
 WORKDIR /app
+
 COPY --from=publish /app/publish .
+
+USER app
+
 ENTRYPOINT ["dotnet", "BandHub.AuthService.dll"]
