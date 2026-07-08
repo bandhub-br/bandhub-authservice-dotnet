@@ -50,3 +50,34 @@ jobs:
 
       - name: 🔒 Executar Semgrep
         run: semgrep scan --config auto .
+
+  dependency-check:
+    name: OWASP Dependency-Check
+
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+
+    steps:
+      - name: 📥 Checkout do código
+        uses: actions/checkout@v4
+
+      - name: ☕ Configurar Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+
+      - name: 🔍 Executar OWASP Dependency-Check
+        uses: dependency-check/Dependency-Check_Action@main
+        with:
+          project: "BandHub.AuthService"
+          path: "."
+          format: "HTML"
+
+      - name: 📄 Publicar relatório
+        uses: actions/upload-artifact@v4
+        with:
+          name: dependency-check-report
+          path: reports
